@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import CoinContext from "../../store/context";
 import useHttp from "../../hooks/useHttp";
 import PageTab from "../PageTab/PageTab";
 import SearchCrypto from "../SearchCrypto/SearchCrypto";
 
-const perPage = 100;
+const perPage = 20;
 
 const CryptoList = () => {
+  const coinCtx = useContext(CoinContext);
   const [datas, SetDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -73,18 +75,43 @@ const CryptoList = () => {
                   {data.market_cap_change_percentage_24h}%
                 </td>
                 <td className="border-b-2 border-black ">
-                  <button className="px-3 py-3">
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 6.76l1.379 4.246h4.465l-3.612 2.625 1.379 4.246-3.611-2.625-3.612 2.625 1.379-4.246-3.612-2.625h4.465l1.38-4.246zm0-6.472l-2.833 8.718h-9.167l7.416 5.389-2.833 8.718 7.417-5.388 7.416 5.388-2.833-8.718 7.417-5.389h-9.167l-2.833-8.718z" />
-                      </svg>
-                    </span>
-                  </button>
+                  {coinCtx.coinList.includes(data.id) && (
+                    <button
+                      id={data.id}
+                      onClick={coinCtx.removeFromWatchList}
+                      className="px-3 py-3"
+                    >
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z" />
+                        </svg>
+                      </span>
+                    </button>
+                  )}
+
+                  {!coinCtx.coinList.includes(data.id) && (
+                    <button
+                      id={data.id}
+                      onClick={coinCtx.addToWatchList}
+                      className="px-3 py-3"
+                    >
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 6.76l1.379 4.246h4.465l-3.612 2.625 1.379 4.246-3.611-2.625-3.612 2.625 1.379-4.246-3.612-2.625h4.465l1.38-4.246zm0-6.472l-2.833 8.718h-9.167l7.416 5.389-2.833 8.718 7.417-5.388 7.416 5.388-2.833-8.718 7.417-5.389h-9.167l-2.833-8.718z" />
+                        </svg>
+                      </span>
+                    </button>
+                  )}
                 </td>
               </tr>
             );
