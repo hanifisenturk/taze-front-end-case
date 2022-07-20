@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import useHttp from "../../hooks/useHttp";
+import PageTab from "../PageTab/PageTab";
+import SearchCrypto from "../SearchCrypto/SearchCrypto";
 
 const CryptoList = () => {
   const [datas, SetDatas] = useState([]);
@@ -18,6 +20,10 @@ const CryptoList = () => {
 
   return (
     <div className="max-w-[130rem] my-0 mx-auto">
+      <div className="w-full flex items-center justify-between mb-5">
+        <SearchCrypto />
+        <PageTab />
+      </div>
       <table className="border-collapse text-center table-fixed w-full bg-[rgba(255,255,255,.4)] text-white backdrop-blur-md backdrop-opacity-40">
         <thead className="text-[1.8rem] select-none ">
           <tr>
@@ -36,13 +42,13 @@ const CryptoList = () => {
                 <td className="border-b-2 border-black my-0 py-1 pb-2 ">
                   <figure className="my-0 mx-auto w-[40px] h-[40px]">
                     <img
-                      className="object-cover h-full w-full"
+                      className="object-cover h-full w-full select-none"
                       src={data.image}
                       alt={data.id}
                     />
                   </figure>
                 </td>
-                <td className="border-b-2 border-black">{data.id}</td>
+                <td className="border-b-2 border-black">{data.name}</td>
                 <td className="border-b-2 border-black">
                   {data.current_price}
                 </td>
