@@ -3,26 +3,40 @@ import useHttp from "../../hooks/useHttp";
 import PageTab from "../PageTab/PageTab";
 import SearchCrypto from "../SearchCrypto/SearchCrypto";
 
+const perPage = 100;
+
 const CryptoList = () => {
   const [datas, SetDatas] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const [isLoading, error, sendRequest] = useHttp();
+
+  const handlePagination = (e) => {
+    setCurrentPage(e.target.dataset.pagenumber);
+  };
 
   const handleData = (data) => {
     SetDatas(data);
   };
 
+  const getTotalCrypto = (data) => {
+    console.log(data.length);
+    setTotalPage(Math.ceil(data.length / perPage));
+  };
+
   useEffect(() => {
     sendRequest(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false",
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=${currentPage}&sparkline=false`,
       handleData
     );
-  }, [sendRequest]);
+    sendRequest(`https://api.coingecko.com/api/v3/coins/list`, getTotalCrypto);
+  }, [sendRequest, currentPage]);
 
   return (
     <div className="max-w-[130rem] my-0 mx-auto">
       <div className="w-full flex items-center justify-between mb-5">
         <SearchCrypto />
-        <PageTab />
+        <PageTab handlePagination={handlePagination} totalPage={totalPage} />
       </div>
       <table className="border-collapse text-center table-fixed w-full bg-[rgba(255,255,255,.4)] text-white backdrop-blur-md backdrop-opacity-40">
         <thead className="text-[1.8rem] select-none ">
