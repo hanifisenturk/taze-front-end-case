@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -66,15 +67,19 @@ const WatchList = () => {
               return (
                 <tr key={data.id}>
                   <td className="border-b-2 border-black my-0 py-1 pb-2 ">
-                    <figure className="my-0 mx-auto w-[40px] h-[40px]">
-                      <img
-                        className="object-cover h-full w-full select-none"
-                        src={data.image}
-                        alt={data.id}
-                      />
-                    </figure>
+                    <Link to={`${data.id}`}>
+                      <figure className="my-0 mx-auto w-[40px] h-[40px]">
+                        <img
+                          className="object-cover h-full w-full select-none"
+                          src={data.image}
+                          alt={data.id}
+                        />
+                      </figure>
+                    </Link>
                   </td>
+
                   <td className="border-b-2 border-black">{data.name}</td>
+
                   <td className="border-b-2 border-black">
                     {data.current_price}
                   </td>
