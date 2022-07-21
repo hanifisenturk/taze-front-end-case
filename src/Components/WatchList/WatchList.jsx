@@ -1,6 +1,15 @@
 import { useState, useEffect, useContext } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
 import CoinContext from "../../store/context";
 import useHttp from "../../hooks/useHttp";
+
 const WatchList = () => {
   const [watched, setWatched] = useState([]);
   const coinCtx = useContext(CoinContext);
@@ -9,17 +18,36 @@ const WatchList = () => {
 
   const watchListHandler = (data) => {
     setWatched(data);
+    console.log(data);
+  };
+
+  const RenderLineChart = ({ priceData }) => {
+    return (
+      <LineChart width={200} height={100} data={priceData} margin={{ left: 5 }}>
+        <CartesianGrid strokeDasharray="10 10" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+
+        <Line
+          type="monotone"
+          dataKey="percentage"
+          stroke="#9509F6"
+          activeDot={{ r: 4 }}
+        />
+      </LineChart>
+    );
   };
 
   useEffect(() => {
     sendRequest(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinCtx.coinList}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d`,
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinCtx.coinList}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d%2C30d`,
       watchListHandler
     );
     console.log("fdf");
   }, [sendRequest, coinCtx.coinList]);
 
-  if (coinCtx?.coinList.length > 0) {
+  if (coinCtx.coinList && coinCtx.coinList.length > 0) {
     return (
       <div className="max-w-[130rem] my-0 mx-auto mb-10">
         <h1 className="text-[2.4rem] text-white mb-3">Watch List</h1>
@@ -29,9 +57,8 @@ const WatchList = () => {
               <th className="border-b-2 border-black">Logo</th>
               <th className="border-b-2 border-black">Name</th>
               <th className="border-b-2 border-black">Current Price (USD)</th>
-              <th className="border-b-2 border-black">Price(24h)%</th>
               <th className="border-b-2 border-black">Volume(24h)%</th>
-              <th className="border-b-2 border-black">Graphic</th>
+              <th className="border-b-2 border-black">Exchange Graphic </th>
             </tr>
           </thead>
           <tbody className="text-[1.8rem]">
@@ -51,11 +78,41 @@ const WatchList = () => {
                   <td className="border-b-2 border-black">
                     {data.current_price}
                   </td>
-                  <td className="border-b-2 border-black">
-                    {data.price_change_percentage_24h}%
-                  </td>
+
                   <td className="border-b-2 border-black">
                     {data.market_cap_change_percentage_24h}%
+                  </td>
+                  <td className="border-b-2 border-black py-3">
+                    {
+                      <RenderLineChart
+                        priceData={[
+                          {
+                            name: "1h",
+                            percentage: Math.ceil(
+                              data.price_change_percentage_1h_in_currency
+                            ),
+                          },
+                          {
+                            name: "24h",
+                            percentage: Math.ceil(
+                              data.price_change_percentage_24h_in_currency
+                            ),
+                          },
+                          {
+                            name: "7d",
+                            percentage: Math.ceil(
+                              data.price_change_percentage_7d_in_currency
+                            ),
+                          },
+                          {
+                            name: "30d",
+                            percentage: Math.ceil(
+                              data.price_change_percentage_30d_in_currency
+                            ),
+                          },
+                        ]}
+                      />
+                    }
                   </td>
                 </tr>
               );
