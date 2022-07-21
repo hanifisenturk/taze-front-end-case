@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useHttp from "../hooks/useHttp";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -13,7 +13,9 @@ import {
 const CoinInfo = () => {
   const { coinId } = useParams();
   const [isLoading, error, sendRequest] = useHttp();
+  const [second, setSeconds] = useState(5);
   const [data, setData] = useState({});
+  let navigate = useNavigate();
 
   const RenderLineChart = ({ priceData }) => {
     return (
@@ -49,6 +51,7 @@ const CoinInfo = () => {
     console.log(data);
     setData(data);
   };
+
   useEffect(() => {
     sendRequest(
       `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`,
@@ -56,9 +59,14 @@ const CoinInfo = () => {
     );
   }, [sendRequest, coinId]);
 
+  useEffect(() => {
+    error && second > 0 && setTimeout(() => setSeconds(second - 1), 1000);
+    second === 0 && navigate("/");
+  }, [error, second, navigate]);
+
   return (
     <div className="max-w-[130rem] bg-[rgba(255,255,255,.4)] text-white backdrop-blur-md backdrop-opacity-40 my-0 mx-auto py-2 px-4 flex flex-col gap-3">
-      {!isLoading && (
+      {!isLoading && !error && (
         <div className="w-full">
           <div className="w-full flex items-center justify-between">
             <h1 className="text-black text-[3.2rem]">{data.name}</h1>
@@ -115,6 +123,16 @@ const CoinInfo = () => {
               className="text-black text-2xl  leading-10"
             ></p>
           </div>
+        </div>
+      )}
+      {error && (
+        <div className="text-black text-center">
+          <p className=" text-[5.2rem] ">
+            Maybe you are having a tough time :(
+          </p>
+          <p className=" text-[3.6rem]">
+            Redirecting to the home page in {second} seconds...
+          </p>
         </div>
       )}
     </div>
