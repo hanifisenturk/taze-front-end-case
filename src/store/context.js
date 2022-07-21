@@ -27,7 +27,7 @@ export const ContextProvider = ({ children }) => {
 
     setCoinList([e.currentTarget.id]);
 
-    localStorage.setItem(JSON.stringify(coinList));
+    localStorage.setItem("watchList", JSON.stringify(e.currentTarget.id));
   };
 
   const removeFromWatchList = (e) => {
