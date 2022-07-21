@@ -11,7 +11,7 @@ function App() {
         <div className="bg-gradient-to-r from-[#F4D03F] to-[#16A085]  min-h-screen bg-fixed py-10">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:coinId" element={<CoinInfo />} />
+            <Route path="/coin/:coinId" element={<CoinInfo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

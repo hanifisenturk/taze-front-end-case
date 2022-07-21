@@ -67,7 +67,7 @@ const WatchList = () => {
               return (
                 <tr key={data.id}>
                   <td className="border-b-2 border-black my-0 py-1 pb-2 ">
-                    <Link to={`${data.id}`}>
+                    <Link to={`coin/${data.id}`}>
                       <figure className="my-0 mx-auto w-[40px] h-[40px]">
                         <img
                           className="object-cover h-full w-full select-none"
