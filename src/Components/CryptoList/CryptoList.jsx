@@ -5,37 +5,45 @@ import useHttp from "../../hooks/useHttp";
 import SearchCrypto from "../SearchCrypto/SearchCrypto";
 import Pagination from "../Pagination/Pagination";
 
-const perPage = 100;
+const perPage = 50;
 
 const CryptoList = () => {
   const coinCtx = useContext(CoinContext);
-  const [datas, SetDatas] = useState([]);
+  const [datas, setDatas] = useState([]);
 
   const [totalPage, setTotalPage] = useState(1);
   const [isLoading, error, sendRequest] = useHttp();
 
   const handleData = (data) => {
-    SetDatas(data);
+    setDatas(data);
   };
 
   const getTotalCrypto = (data) => {
-    console.log(data.length);
     setTotalPage(Math.ceil(data.length / perPage));
   };
 
   useEffect(() => {
+    sendRequest(`https://api.coingecko.com/api/v3/coins/list`, getTotalCrypto);
+
     sendRequest(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=${coinCtx.currentPage}&sparkline=false`,
       handleData
     );
-    sendRequest(`https://api.coingecko.com/api/v3/coins/list`, getTotalCrypto);
-  }, [sendRequest, coinCtx.currentPage]);
+  }, [
+    sendRequest,
+    coinCtx.currentPage,
+    coinCtx.isSearched,
+    coinCtx.searchQuery,
+  ]);
+
+  const relativeData = coinCtx.isSearched ? coinCtx.searchList : datas;
 
   return (
     <div className="max-w-[130rem] my-0 mx-auto">
       <div className="w-full flex items-center justify-between mb-5">
         <SearchCrypto />
-        <Pagination totalPage={totalPage} />
+
+        {!coinCtx.isSearched && <Pagination totalPage={totalPage} />}
       </div>
       <table className="border-collapse text-center table-fixed w-full bg-[rgba(255,255,255,.4)] text-white backdrop-blur-md backdrop-opacity-40">
         <thead className="text-[1.8rem] select-none ">
@@ -49,7 +57,7 @@ const CryptoList = () => {
           </tr>
         </thead>
         <tbody className="text-[1.8rem]">
-          {datas.map((data) => {
+          {relativeData.map((data) => {
             return (
               <tr key={data.id}>
                 <td className="border-b-2 border-black my-0 py-1 pb-2 ">
@@ -57,7 +65,7 @@ const CryptoList = () => {
                     <figure className="my-0 mx-auto w-[40px] h-[40px]">
                       <img
                         className="object-cover h-full w-full select-none"
-                        src={data.image}
+                        src={data.image || data.thumb}
                         alt={data.id}
                       />
                     </figure>
@@ -65,13 +73,13 @@ const CryptoList = () => {
                 </td>
                 <td className="border-b-2 border-black">{data.name}</td>
                 <td className="border-b-2 border-black">
-                  {data.current_price}
+                  {data.current_price || "N/A"}
                 </td>
                 <td className="border-b-2 border-black">
-                  {data.price_change_percentage_24h}%
+                  {data.price_change_percentage_24h || "N/A"}%
                 </td>
                 <td className="border-b-2 border-black">
-                  {data.market_cap_change_percentage_24h}%
+                  {data.market_cap_change_percentage_24h || "N/A"}%
                 </td>
                 <td className="border-b-2 border-black ">
                   {coinCtx.coinList.includes(data.id) && (
