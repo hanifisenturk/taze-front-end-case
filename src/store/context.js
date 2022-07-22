@@ -4,10 +4,17 @@ const CoinContext = createContext({
   coinList: [],
   addToWatchList: () => {},
   removeFromWatchList: () => {},
+  currentPage: 1,
+  getCurrentPage: (pageNumber) => {},
 });
 
 export const ContextProvider = ({ children }) => {
   const [coinList, setCoinList] = useState([]);
+  const [currentPage, setCurrentPage] = useState([]);
+
+  const getCurrentPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
     const existedStorage = JSON.parse(localStorage.getItem("watchList"));
@@ -42,6 +49,8 @@ export const ContextProvider = ({ children }) => {
         addToWatchList: addToWatchList,
         removeFromWatchList: removeFromWatchList,
         coinList: coinList,
+        getCurrentPage: getCurrentPage,
+        currentPage: currentPage,
       }}
     >
       {children}
