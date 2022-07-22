@@ -22,6 +22,15 @@ const WatchList = () => {
     console.log(data);
   };
 
+  useEffect(() => {
+    if (coinCtx.coinList && coinCtx.coinList.length > 0) {
+      sendRequest(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinCtx.coinList}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d%2C30d`,
+        watchListHandler
+      );
+    }
+  }, [sendRequest, coinCtx.coinList]);
+
   const RenderLineChart = ({ priceData }) => {
     return (
       <LineChart width={200} height={100} data={priceData} margin={{ left: 5 }}>
@@ -39,14 +48,6 @@ const WatchList = () => {
       </LineChart>
     );
   };
-
-  useEffect(() => {
-    sendRequest(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinCtx.coinList}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d%2C30d`,
-      watchListHandler
-    );
-    console.log("fdf");
-  }, [sendRequest, coinCtx.coinList]);
 
   if (coinCtx.coinList && coinCtx.coinList.length > 0) {
     return (
