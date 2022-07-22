@@ -28,6 +28,7 @@ const SearchCrypto = () => {
   useEffect(() => {
     if (!searchParams.get("search")) return coinCtx.setIsSearched(false);
     setSearchQuery(searchParams.get("search"));
+    inputRef.current.value = searchParams.get("search");
     if (searchQuery.length > 0) {
       sendRequest(
         `https://api.coingecko.com/api/v3/search?query=${searchQuery}`,
