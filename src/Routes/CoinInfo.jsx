@@ -120,11 +120,15 @@ const CoinInfo = () => {
               <p>24h The Highest:{data.market_data.high_24h.usd}$</p>
               <p>24h The Lowest :{data.market_data.low_24h.usd}$</p>
             </div>
-            <h3 className="text-black text-[3.2rem]">About {data.name}</h3>
-            <p
-              dangerouslySetInnerHTML={{ __html: data.description.en }}
-              className="text-black text-2xl  leading-10"
-            ></p>
+            {data.description.en && (
+              <>
+                <h3 className="text-black text-[3.2rem]">About {data.name}</h3>
+                <p
+                  dangerouslySetInnerHTML={{ __html: data.description.en }}
+                  className="text-black text-2xl  leading-10"
+                ></p>
+              </>
+            )}
           </div>
         </div>
       )}
