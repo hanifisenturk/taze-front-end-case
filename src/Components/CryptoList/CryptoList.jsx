@@ -39,30 +39,30 @@ const CryptoList = () => {
   const relativeData = coinCtx.isSearched ? coinCtx.searchList : datas;
 
   return (
-    <div className="max-w-[130rem] my-0 mx-auto">
-      <div className="w-full flex items-center justify-between mb-5">
+    <div className="md:max-w-[130rem] my-0 mx-auto">
+      <div className="w-full flex flex-col gap-10 md:flex-row items-center justify-between mb-5">
         <SearchCrypto />
 
         {!coinCtx.isSearched && <Pagination totalPage={totalPage} />}
       </div>
       <table className="border-collapse text-center table-fixed w-full bg-[rgba(255,255,255,.4)] text-white backdrop-blur-md backdrop-opacity-40">
-        <thead className="text-[1.8rem] select-none ">
+        <thead className="text-[1.2rem] md:text-[1.8rem] select-none ">
           <tr>
             <th className="border-b-2 border-black">Logo</th>
             <th className="border-b-2 border-black">Name</th>
             <th className="border-b-2 border-black">Current Price (USD)</th>
-            <th className="border-b-2 border-black">Price(24h)%</th>
-            <th className="border-b-2 border-black">Volume(24h)%</th>
+            <th className="border-b-2 border-black">Price(24h)</th>
+            <th className="border-b-2 border-black">Volume(24h)</th>
             <th className="border-b-2 border-black">Watch</th>
           </tr>
         </thead>
-        <tbody className="text-[1.8rem]">
+        <tbody className="text-[1.2rem] md:text-[1.8rem]">
           {relativeData.map((data) => {
             return (
               <tr key={data.id}>
-                <td className="border-b-2 border-black my-0 py-1 pb-2 ">
+                <td className="border-b-2 border-black my-0 py-4 md:py-2">
                   <Link to={`coin/${data.id}`}>
-                    <figure className="my-0 mx-auto w-[40px] h-[40px]">
+                    <figure className="my-0 mx-auto w-[3rem] h-[3rem] md:w-[4rem] md:h-[4rem]">
                       <img
                         className="object-cover h-full w-full select-none"
                         src={data.image || data.thumb}
