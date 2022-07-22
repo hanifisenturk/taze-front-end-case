@@ -5,15 +5,26 @@ const CoinContext = createContext({
   addToWatchList: () => {},
   removeFromWatchList: () => {},
   currentPage: 1,
+  setIsSearched: () => {},
+  isSearched: false,
+  searchList: [],
+  getSearchList: () => {},
   getCurrentPage: (pageNumber) => {},
 });
 
 export const ContextProvider = ({ children }) => {
   const [coinList, setCoinList] = useState([]);
   const [currentPage, setCurrentPage] = useState([]);
+  const [searchList, setSearchList] = useState("");
+  const [isSearched, setIsSearched] = useState(false);
 
   const getCurrentPage = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const getSearchList = (list) => {
+    setSearchList(list);
+    setIsSearched(true);
   };
 
   useEffect(() => {
@@ -51,6 +62,10 @@ export const ContextProvider = ({ children }) => {
         coinList: coinList,
         getCurrentPage: getCurrentPage,
         currentPage: currentPage,
+        getSearchList: getSearchList,
+        searchList: searchList,
+        setIsSearched: setIsSearched,
+        isSearched: isSearched,
       }}
     >
       {children}
