@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <ContextProvider>
-        <div className="bg-gradient-to-r from-[#F4D03F] to-[#16A085]  min-h-screen bg-fixed py-10">
+        <div className="bg-gradient-to-r from-[#F4D03F] to-[#16A085]  min-h-screen bg-fixed py-10 px-4">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/coin/:coinId" element={<CoinInfo />} />

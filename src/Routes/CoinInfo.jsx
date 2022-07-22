@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useHttp from "../hooks/useHttp";
 import { useParams, useNavigate } from "react-router-dom";
 import {
+  ResponsiveContainer,
   LineChart,
   Line,
   XAxis,
@@ -19,31 +20,33 @@ const CoinInfo = () => {
 
   const RenderLineChart = ({ priceData }) => {
     return (
-      <LineChart
-        width={1200}
-        height={400}
-        data={priceData}
-        margin={{ left: 5 }}
-        style={{ fontSize: "1.5rem" }}
-      >
-        <CartesianGrid stroke="white" strokeDasharray="10 10" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip
-          wrapperStyle={{
-            fontSize: "1.8rem",
-            fontWeight: "bold",
-          }}
-        />
+      <ResponsiveContainer aspect={2 / 1}>
+        <LineChart
+          width={1200}
+          height={400}
+          data={priceData}
+          margin={{ left: 5 }}
+          style={{ fontSize: "1.5rem" }}
+        >
+          <CartesianGrid stroke="white" strokeDasharray="10 10" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip
+            wrapperStyle={{
+              fontSize: "1.8rem",
+              fontWeight: "bold",
+            }}
+          />
 
-        <Line
-          type="scatter"
-          dataKey="percentage"
-          dot={{ stroke: "black", strokeWidth: 4 }}
-          stroke="black"
-          activeDot={{ r: 10 }}
-        />
-      </LineChart>
+          <Line
+            type="scatter"
+            dataKey="percentage"
+            dot={{ stroke: "black", strokeWidth: 4 }}
+            stroke="black"
+            activeDot={{ r: 10 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     );
   };
 
@@ -112,7 +115,7 @@ const CoinInfo = () => {
             ]}
           />
           <div className="w-full flex flex-col items-center justify-between gap-6">
-            <div className="w-full text-black text-[1.8rem] flex-initial basis-1/2 flex items-center justify-between gap-4">
+            <div className="w-full text-black text-[1.4rem] md:text-[1.8rem] flex-initial basis-1/2 flex flex-col md:flex-row items-center justify-between gap-4">
               <p>Market Value: {data.market_data.current_price.usd}$</p>
               <p>24h The Highest:{data.market_data.high_24h.usd}$</p>
               <p>24h The Lowest :{data.market_data.low_24h.usd}$</p>

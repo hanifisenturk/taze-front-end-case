@@ -52,24 +52,28 @@ const WatchList = () => {
   if (coinCtx.coinList && coinCtx.coinList.length > 0) {
     return (
       <div className="max-w-[130rem] my-0 mx-auto mb-10">
-        <h1 className="text-[2.4rem] text-white mb-3">Watch List</h1>
+        <h1 className="text-[1.8rem] md:text-[2.4rem] text-white mb-3">
+          Watch List
+        </h1>
         <table className="border-collapse text-center table-fixed w-full bg-[rgba(255,255,255,.4)] text-white backdrop-blur-md backdrop-opacity-40">
-          <thead className="text-[1.8rem] select-none ">
+          <thead className="text-[1.2rem] md:text-[1.8rem] select-none ">
             <tr>
               <th className="border-b-2 border-black">Logo</th>
               <th className="border-b-2 border-black">Name</th>
               <th className="border-b-2 border-black">Current Price (USD)</th>
-              <th className="border-b-2 border-black">Volume(24h)%</th>
-              <th className="border-b-2 border-black">Exchange Graphic </th>
+              <th className="border-b-2 border-black">Volume(24h)</th>
+              <th className="hidden md:block border-b-2 border-black">
+                Exchange Graphic{" "}
+              </th>
             </tr>
           </thead>
-          <tbody className="text-[1.8rem]">
+          <tbody className="text-[1.4rem] md:text-[1.8rem]">
             {watched.map((data) => {
               return (
                 <tr key={data.id}>
                   <td className="border-b-2 border-black my-0 py-1 pb-2 ">
                     <Link to={`coin/${data.id}`}>
-                      <figure className="my-0 mx-auto w-[40px] h-[40px]">
+                      <figure className="my-0 mx-auto w-[3rem] h-[3rem] md:w-[40px] md:h-[40px]">
                         <img
                           className="object-cover h-full w-full select-none"
                           src={data.image}
@@ -88,7 +92,7 @@ const WatchList = () => {
                   <td className="border-b-2 border-black">
                     {data.market_cap_change_percentage_24h}%
                   </td>
-                  <td className="border-b-2 border-black py-3">
+                  <td className="hidden md:block border-b-2 border-black py-3">
                     {
                       <RenderLineChart
                         priceData={[

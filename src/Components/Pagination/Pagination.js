@@ -46,8 +46,8 @@ const Pagination = ({ totalPage }) => {
             key={consecutive}
             className={
               currentPage === consecutive
-                ? "bg-black order-3  min-w-[5rem]  text-white rounded-md px-2 py-1 mx-1"
-                : "bg-white order-3 min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
+                ? "bg-black order-3 min-w-[3rem] md:min-w-[5rem]  text-white rounded-md px-2 py-1 mx-1"
+                : "bg-white order-3 min-w-[3rem] md:min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
             }
             data-pagenumber={consecutive}
             onClick={pageChangeHandler}
@@ -63,8 +63,8 @@ const Pagination = ({ totalPage }) => {
             key={-1}
             className={
               currentPage === 1
-                ? "bg-black order-first  min-w-[5rem]  text-white rounded-md px-2 py-1 mx-1"
-                : "bg-white order-first min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
+                ? "bg-black order-first min-w-[3rem]  md:min-w-[5rem]  text-white rounded-md px-2 py-1 mx-1"
+                : "bg-white order-first min-w-[3rem]  md:min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
             }
             data-pagenumber={1}
             onClick={pageChangeHandler}
@@ -73,7 +73,7 @@ const Pagination = ({ totalPage }) => {
           </button>
           <button
             key={0}
-            className=" bg-white order-2 min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
+            className=" bg-white order-2 min-w-[3rem] md:min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
           >
             ...
           </button>
@@ -87,8 +87,8 @@ const Pagination = ({ totalPage }) => {
               key={-2}
               className={
                 currentPage === totalPage
-                  ? "bg-black order-last  min-w-[5rem]  text-white rounded-md px-2 py-1 mx-1"
-                  : "bg-white order-last min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
+                  ? "bg-black order-last min-w-[2rem] md:min-w-[5rem]  text-white rounded-md px-2 py-1 mx-1"
+                  : "bg-white order-last min-w-[2rem] md:min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
               }
               data-pagenumber={totalPage}
               onClick={pageChangeHandler}
@@ -97,7 +97,7 @@ const Pagination = ({ totalPage }) => {
             </button>
             <button
               key={-3}
-              className=" bg-white order-4 min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
+              className=" bg-white order-4 min-w-[3rem] md:min-w-[5rem]  text-black rounded-md px-2 py-1 mx-1"
             >
               ...
             </button>
